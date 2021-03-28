@@ -36,3 +36,6 @@ log.txt
 images/
 bin/
 obj/
+*.cbp
+*.depend
+*.layout
