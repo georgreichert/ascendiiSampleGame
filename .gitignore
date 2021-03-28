@@ -39,3 +39,6 @@ obj/
 *.cbp
 *.depend
 *.layout
+
+# commit SampleGame.exe
+!/SampleGame.exe
