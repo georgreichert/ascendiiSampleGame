@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# code::blocks files, debug logfile, images
+log.txt
+images/
+bin/
+obj/
