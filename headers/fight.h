@@ -12,6 +12,8 @@ class Fight : public GameState {
         int hitAnimFighterIndex;
         int hitAnimAbilityIndex;
         int hitAnimTimer;
+        MoveAnimation* hitMoveAnim = nullptr;
+        MoveAnimation* winAnim = nullptr;
         bool waitForEnd = false;
         int endTimer = 0;
         Sprite* hitSprite;

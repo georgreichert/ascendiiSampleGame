@@ -5,6 +5,7 @@ std::vector<Fighter*> Database::fighters;
 bool Database::initialized = false;
 Sprite* Database::hitSprite = nullptr;
 Sprite* Database::threeTwoOne[3];
+Sprite* Database::winner = nullptr;
 
 std::vector<Ability*> Database::getAbilities() {
     Database::initialize();
@@ -44,6 +45,11 @@ Sprite* Database::getHitSprite() {
 Sprite* Database::getThreeTwoOne(int index) {
     Database::initialize();
     return Database::threeTwoOne[index];
+}
+
+Sprite* Database::getWinner() {
+    Database::initialize();
+    return Database::winner;
 }
 
 void Database::initialize() {
@@ -281,6 +287,14 @@ void Database::initialize() {
             "      ###",
         };
         Database::threeTwoOne[2] = new Sprite(one, COLOR_YELLOW, one[0].length(), 11);
+
+        std::string winner[4] = {
+            "##       ## ## ##  ## ##  ## #### #### ",
+            " ##  #  ##  ## ### ## ### ## #__  ## ##",
+            "  ### ###   ## ## ### ## ### #    #### ",
+            "   #   #    ## ##  ## ##  ## #### ## ##"
+        };
+        Database::winner = new Sprite(winner, COLOR_YELLOW, winner[0].length(), 4);
     }
 }
 
@@ -296,5 +310,6 @@ void Database::destroy() {
         for (int i = 0; i < 3; i++) {
             delete Database::threeTwoOne[i];
         }
+        delete Database::winner;
     }
 }
