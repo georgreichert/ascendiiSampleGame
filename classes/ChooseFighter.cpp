@@ -13,7 +13,9 @@ ChooseFighter::ChooseFighter(Screen* screen, OneVsOne* parentState, float start)
 }
 
 ChooseFighter::~ChooseFighter() {
-
+    for (MenuElement* me : this->menuElements) {
+        delete me;
+    }
 }
 
 void ChooseFighter::keyInput(int key) {

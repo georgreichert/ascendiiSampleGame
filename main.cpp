@@ -3,7 +3,7 @@
 int main() {
     srand((unsigned)time(0));
     DebugLog::reset();
-    Screen* screen = new Screen();
+    Screen* screen = new Screen("Fight Club");
     screen->fullScreen();
     int key = -1;
     bool pressed = false;

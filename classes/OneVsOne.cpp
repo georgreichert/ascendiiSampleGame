@@ -58,15 +58,19 @@ void OneVsOne::keyInput(int key) {
                 this->activeSubState->keyInput(key);
                 if (this->activeSubState->leaveStatus()) {
                     if (this->subStateStackLeft.top() == activeSubState) {
+                        delete subStateStackLeft.top();
                         this->subStateStackLeft.pop();
                         if(this->subStateStackLeft.empty()) {
+                            this->activeSubState = nullptr;
                             this->leave = true;
                         } else {
                             this->activeSubState = this->subStateStackLeft.top();
                         }
                     } else {
+                        delete subStateStackRight.top();
                         this->subStateStackRight.pop();
                         if(this->subStateStackRight.empty()) {
+                            this->activeSubState = nullptr;
                             this->leave = true;
                         } else {
                             this->activeSubState = this->subStateStackRight.top();
@@ -84,16 +88,18 @@ void OneVsOne::keyInput(int key) {
                 this->activeSubState->keyInput(key);
                 break;
         }
-        SubState* nextSubState = this->activeSubState->getNextState();
-        if (nextSubState != nullptr) {
-            if (this->subStateStackLeft.top() == activeSubState) {
-                this->subStateStackLeft.push(nextSubState);
-                this->activeSubState = this->subStateStackLeft.top();
-            } else {
-                this->subStateStackRight.push(nextSubState);
-                this->activeSubState = this->subStateStackRight.top();
+        if (activeSubState != nullptr) {
+            SubState* nextSubState = this->activeSubState->getNextState();
+            if (nextSubState != nullptr) {
+                if (this->subStateStackLeft.top() == activeSubState) {
+                    this->subStateStackLeft.push(nextSubState);
+                    this->activeSubState = this->subStateStackLeft.top();
+                } else {
+                    this->subStateStackRight.push(nextSubState);
+                    this->activeSubState = this->subStateStackRight.top();
+                }
+                this->activeSubState->toggleFocus();
             }
-            this->activeSubState->toggleFocus();
         }
     }
 }
