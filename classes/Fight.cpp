@@ -35,7 +35,7 @@ void Fight::update(int deltaTime) {
             int originX = this->hitAnimFighterIndex == 0 ? ((width - fighter1->getSprite()->getWidth()) / 5 + rand() % 45)
                                 : ((width - fighter2->getSprite()->getWidth()) * 4 / 5 + rand() % 45);
             this->hitSprite->setColor(this->hitAnimAbilityIndex == 0 ? COLOR_PINK : COLOR_RED);
-            this->hitMoveAnim->draw(screen, deltaTime, false, ' ');
+            this->hitMoveAnim->draw(screen, deltaTime, false);
         } else if (this->hitMoveAnim != nullptr) {
             delete this->hitMoveAnim;
             this->hitMoveAnim = nullptr;
@@ -134,7 +134,7 @@ void Fight::update(int deltaTime) {
     }
     if (this->waitForEnd && this->winAnim != nullptr) {
         this->endTimer += deltaTime;
-        winAnim->draw(screen, deltaTime, false, ' ');
+        winAnim->draw(screen, deltaTime, false);
         if (this->endTimer > 2000) {
             delete this->winAnim;
             this->leave = true;

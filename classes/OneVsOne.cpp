@@ -141,13 +141,13 @@ void OneVsOne::update(int deltaTime) {
         this->startFightAnimTimer += deltaTime;
         if (this->startFightAnimTimer < 1000) {
             Sprite* three = Database::getThreeTwoOne(0);
-            three->draw(screen, (width - three->getWidth()) / 2, 10, false, ' ');
+            three->draw(screen, (width - three->getWidth()) / 2, 10, false);
         } else if (this->startFightAnimTimer < 2000) {
             Sprite* two = Database::getThreeTwoOne(1);
-            two->draw(screen, (width - two->getWidth()) / 2, 10, false, ' ');
+            two->draw(screen, (width - two->getWidth()) / 2, 10, false);
         } else if (this->startFightAnimTimer < 3000) {
             Sprite* one = Database::getThreeTwoOne(2);
-            one->draw(screen, (width - one->getWidth()) / 2, 10, false, ' ');
+            one->draw(screen, (width - one->getWidth()) / 2, 10, false);
         } else {
             this->startFightAnim = false;
             this->nextState = new Fight(screen, this->fighter1, this->fighter2);

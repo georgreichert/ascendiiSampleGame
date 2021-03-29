@@ -11,6 +11,7 @@ class MoveAnimation : public Animation {
         Sprite* sprite;
 
     public:
+        // duration in milliseconds
         MoveAnimation(Sprite* sprite, int startX, int startY, int endX, int endY, int duration);
-        void draw(Screen* screen, int deltaTime, bool flipHorizontal, char transparent);
+        void draw(Screen* screen, int deltaTime, bool flipHorizontal);
 };

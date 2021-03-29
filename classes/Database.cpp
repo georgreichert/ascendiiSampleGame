@@ -242,6 +242,7 @@ void Database::initialize() {
             "  |/      \/   "
         };
         Database::hitSprite = new Sprite(hit, COLOR_PINK, hit[0].length(), 10);
+        Database::hitSprite->setTransparent(' ');
 
         std::string three[11] = {
             "   ########   ",
@@ -257,6 +258,7 @@ void Database::initialize() {
             "   ########   ",
         };
         Database::threeTwoOne[0] = new Sprite(three, COLOR_YELLOW, three[0].length(), 11);
+        Database::threeTwoOne[0]->setTransparent(' ');
 
         std::string two[11] = {
             "     ######   ",
@@ -272,6 +274,7 @@ void Database::initialize() {
             " #############",
         };
         Database::threeTwoOne[1] = new Sprite(two, COLOR_YELLOW, two[0].length(), 11);
+        Database::threeTwoOne[1]->setTransparent(' ');
 
         std::string one[11] = {
             "    #####",
@@ -287,6 +290,7 @@ void Database::initialize() {
             "      ###",
         };
         Database::threeTwoOne[2] = new Sprite(one, COLOR_YELLOW, one[0].length(), 11);
+        Database::threeTwoOne[2]->setTransparent(' ');
 
         std::string winner[4] = {
             "##       ## ## ##  ## ##  ## #### #### ",
@@ -295,6 +299,7 @@ void Database::initialize() {
             "   #   #    ## ##  ## ##  ## #### ## ##"
         };
         Database::winner = new Sprite(winner, COLOR_YELLOW, winner[0].length(), 4);
+        Database::winner->setTransparent(' ');
     }
 }
 
