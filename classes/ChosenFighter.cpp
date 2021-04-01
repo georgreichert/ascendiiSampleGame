@@ -10,7 +10,7 @@ ChosenFighter::~ChosenFighter() {
 
 }
 
-void ChosenFighter::draw(int deltaTime) {
+void ChosenFighter::update(int deltaTime) {
     int currentRow = this->startLine;
     int screenWidth = this->screen->getWidth();
     int leftMostIndex = screenWidth * this->start;

@@ -12,12 +12,16 @@ class Fight : public GameState {
         int hitAnimFighterIndex;
         int hitAnimAbilityIndex;
         int hitAnimTimer;
+        MoveAnimation* hitMoveAnim = nullptr;
+        MoveAnimation* winAnim = nullptr;
+        bool waitForEnd = false;
+        int endTimer = 0;
         Sprite* hitSprite;
 
     public:
         Fight(Screen* screen, Fighter* fighter1, Fighter* fighter2);
         ~Fight();
-        void draw(int deltaTime);
+        void update(int deltaTime);
         void keyInput(int key);
         void hit(int fighterIndex, int abilityIndex);
 };

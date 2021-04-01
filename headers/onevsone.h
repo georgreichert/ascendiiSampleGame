@@ -22,7 +22,7 @@ class OneVsOne: public GameState {
         OneVsOne(Screen* screen);
         ~OneVsOne();
         void keyInput(int key);
-        void draw(int deltaTime);
+        void update(int deltaTime);
         GameState* getNextState();
         void startFight(Fighter* fighter, float start);
         void abortFight(float start);

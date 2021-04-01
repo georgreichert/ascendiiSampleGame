@@ -20,7 +20,7 @@ class ChoosePlayer: public SubState {
         ChoosePlayer(Screen* screen, OneVsOne* parentState, bool playerType = false, float start = 0.0f);
         ~ChoosePlayer();
         void keyInput(int key);
-        void draw(int deltaTime);
+        void update(int deltaTime);
         void toggleFocus();
         bool getPlayerType();
 };

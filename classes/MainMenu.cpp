@@ -44,7 +44,7 @@ MainMenu::MainMenu(Screen* screen) : GameState(screen) {
     this->menuElements[2] = new MenuElement(new Sprite(exit, COLOR_WHITE, exit[0].length(), 4));
 }
 
-void MainMenu::draw(int deltaTime) {
+void MainMenu::update(int deltaTime) {
     int currentRow = 7;
     int width = this->screen->getWidth();
 

@@ -9,6 +9,7 @@ class Database {
         static std::vector<Fighter*> fighters;
         static Sprite* hitSprite;
         static Sprite* threeTwoOne[3];
+        static Sprite* winner;
         static bool initialized;
         static void initialize();
 
@@ -19,6 +20,7 @@ class Database {
         static Fighter* getFighter(std::string name);
         static Sprite* getHitSprite();
         static Sprite* getThreeTwoOne(int index);
+        static Sprite* getWinner();
         static void destroy();
 };
 
