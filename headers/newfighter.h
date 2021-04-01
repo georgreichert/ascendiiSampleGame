@@ -12,7 +12,7 @@ class NewFighter: public SubState {
         NewFighter(Screen* screen, float start = 0.0f);
         ~NewFighter();
         void keyInput(int key);
-        void update(int deltaTime);
+        void draw(int deltaTime);
 };
 
 #endif // NEWFIGHTER_H

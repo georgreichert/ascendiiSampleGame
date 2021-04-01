@@ -101,7 +101,7 @@ void ChoosePlayer::keyInput(int key) {
     }
 }
 
-void ChoosePlayer::update(int deltaTime) {
+void ChoosePlayer::draw(int deltaTime) {
     int currentRow = this->startLine;
     int screenWidth = this->screen->getWidth();
     int leftMostIndex = screenWidth * this->start;

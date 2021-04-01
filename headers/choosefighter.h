@@ -14,7 +14,7 @@ class ChooseFighter: public SubState {
         ChooseFighter(Screen* screen, OneVsOne* parentState, float start = 0.0f);
         ~ChooseFighter();
         void keyInput(int key);
-        void update(int deltaTime);
+        void draw(int deltaTime);
 };
 
 #endif // CHOOSEFIGHTER_H

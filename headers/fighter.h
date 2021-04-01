@@ -15,8 +15,6 @@ class Fighter {
         float currentDEFfactor = 1.0;
         float currentRandomModifier = 0.2;
         Sprite* sprite;
-        int victories = 0;
-        int defeats = 0;
 
     public:
         Fighter(std::string name, float maxHP, float baseDMG, float baseDEF, float blockBonus, Ability* ab1, Ability* ab2, Sprite* sprite = nullptr);
@@ -35,10 +33,6 @@ class Fighter {
         Sprite* getSprite();
         void heal();
         Fighter* clone();
-        int getVictories();
-        int getDefeats();
-        void victory();
-        void defeat();
 };
 
 #endif // FIGHTER_H

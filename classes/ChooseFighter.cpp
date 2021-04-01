@@ -13,9 +13,7 @@ ChooseFighter::ChooseFighter(Screen* screen, OneVsOne* parentState, float start)
 }
 
 ChooseFighter::~ChooseFighter() {
-    for (MenuElement* me : this->menuElements) {
-        delete me;
-    }
+
 }
 
 void ChooseFighter::keyInput(int key) {
@@ -48,7 +46,7 @@ void ChooseFighter::keyInput(int key) {
     }
 }
 
-void ChooseFighter::update(int deltaTime) {
+void ChooseFighter::draw(int deltaTime) {
     int currentRow = this->startLine;
     int screenWidth = this->screen->getWidth();
     int leftMostIndex = screenWidth * this->start;
@@ -71,11 +69,6 @@ void ChooseFighter::update(int deltaTime) {
 
     Fighter* activeFighter = this->fighters[this->cursorPosition];
     currentRow = this->startLine + 3 * this->height / 4;
-    int percent = activeFighter->getVictories() + activeFighter->getDefeats() != 0 ? 100 * activeFighter->getVictories()
-                / (activeFighter->getVictories() + activeFighter->getDefeats()) : 0;
-    screen->write("Wins: " + std::to_string(activeFighter->getVictories()) +
-            " (" + std::to_string(percent) + "%)",leftMostIndex +  width / 4 - 4, currentRow - 2);
-    screen->write("Defeats: " + std::to_string(activeFighter->getDefeats()), leftMostIndex + 3 * width / 4 - 6, currentRow - 2);
     screen->write("HP:  ", leftMostIndex + width / 3 - 13, currentRow, COLOR_RED);
     screen->horizontalLine(leftMostIndex + width / 3 - 8, currentRow, activeFighter->getMaxHP() * 2 / 10, BG_COLOR_GREEN, ' ');
     currentRow++;

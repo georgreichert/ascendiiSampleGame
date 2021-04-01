@@ -22,32 +22,12 @@ Fight::~Fight() {
     }
 }
 
-void Fight::update(int deltaTime) {
+void Fight::draw(int deltaTime) {
     if (this->hitAnim) {
         hitAnimTimer += deltaTime;
     }
     int currentRow = 2;
     int width = this->screen->getWidth();
-
-    // ANIM
-    if (this->hitAnim) {
-        if (this->hitAnimTimer < 400) {
-            int originX = this->hitAnimFighterIndex == 0 ? ((width - fighter1->getSprite()->getWidth()) / 5 + rand() % 45)
-                                : ((width - fighter2->getSprite()->getWidth()) * 4 / 5 + rand() % 45);
-            this->hitSprite->setColor(this->hitAnimAbilityIndex == 0 ? COLOR_PINK : COLOR_RED);
-            this->hitMoveAnim->draw(screen, deltaTime, false);
-        } else if (this->hitMoveAnim != nullptr) {
-            delete this->hitMoveAnim;
-            this->hitMoveAnim = nullptr;
-        }
-    }
-
-    if (this->hitAnim && this->hitAnimTimer > 1000) {
-        (this->hitAnimFighterIndex == 0 ? this->fighter1 : this->fighter2)->takeHit((this->hitAnimFighterIndex == 0 ? this->fighter2
-                                                        : this->fighter1)->hit(this->hitAnimAbilityIndex));
-        this->hitAnim = false;
-        this->turnIndex = this->turnIndex == 0 ? 1 : 0;
-    }
 
     // HP Bars
     int player1origin = width / 10;
@@ -94,10 +74,36 @@ void Fight::update(int deltaTime) {
         sprite->draw(screen, (width - sprite->getWidth()) * 4 / 5, currentRow, true);
     }
 
+    if (this->hitAnim) {
+        if (this->hitAnimTimer < 250) {
+            int originX = this->hitAnimFighterIndex == 0 ? ((width - fighter1->getSprite()->getWidth()) / 5 + rand() % 45)
+                                : ((width - fighter2->getSprite()->getWidth()) * 4 / 5 + rand() % 45);
+            this->hitSprite->setColor(this->hitAnimAbilityIndex == 0 ? COLOR_PINK : COLOR_RED);
+            this->hitSprite->draw(screen, originX, currentRow + rand() % 20, false, ' ');
+        }
+//         else if (this->hitAnimTimer < 300) {
+//            int originX = this->hitAnimFighterIndex == 0 ? ((width - fighter1->getSprite()->getWidth()) / 5 + rand() % 45)
+//                                : ((width - fighter2->getSprite()->getWidth()) * 4 / 5) + 50;
+//            this->hitSprite->setColor(this->hitAnimAbilityIndex == 0 ? COLOR_PINK : COLOR_RED);
+//            this->hitSprite->draw(screen, originX, currentRow + rand() % 20, false, ' ');
+//        } else {
+//            int originX = this->hitAnimFighterIndex == 0 ? ((width - fighter1->getSprite()->getWidth()) / 5 + rand() % 45)
+//                                : ((width - fighter2->getSprite()->getWidth()) * 4 / 5) + 10;
+//            this->hitSprite->setColor(this->hitAnimAbilityIndex == 0 ? COLOR_PINK : COLOR_RED);
+//            this->hitSprite->draw(screen, originX, currentRow + rand() % 20, false, ' ');
+//        }
+    }
+
+    if (this->hitAnim && this->hitAnimTimer > 1000) {
+        (this->hitAnimFighterIndex == 0 ? this->fighter1 : this->fighter2)->takeHit((this->hitAnimFighterIndex == 0 ? this->fighter2 : this->fighter1)->hit(this->hitAnimAbilityIndex));
+        this->hitAnim = false;
+        this->turnIndex = this->turnIndex == 0 ? 1 : 0;
+    }
+
     // Tooltips
     currentRow += 30;
     // Player 1
-    if (this->turnIndex == 0 && !waitForEnd) {
+    if (this->turnIndex == 0) {
         int leftmostX = (width - 60) / 5;
         screen->horizontalLine(leftmostX, currentRow, 60, COLOR_BLUE);
         screen->horizontalLine(leftmostX, currentRow + 8, 60, COLOR_BLUE);
@@ -108,7 +114,7 @@ void Fight::update(int deltaTime) {
         screen->write("A - Block", leftmostX + 20, currentRow + 6, COLOR_YELLOW);
     }
 
-    if (this->turnIndex == 1 && !waitForEnd) {
+    if (this->turnIndex == 1) {
         int leftmostX = (width - 60) * 4 / 5;
         screen->horizontalLine(leftmostX, currentRow, 60, COLOR_BLUE);
         screen->horizontalLine(leftmostX, currentRow + 8, 60, COLOR_BLUE);
@@ -118,32 +124,10 @@ void Fight::update(int deltaTime) {
         screen->write("K - " + this->fighter2->getAbility(1)->getName(), leftmostX + 20, currentRow + 4, COLOR_RED);
         screen->write("L - Block", leftmostX + 20, currentRow + 6, COLOR_YELLOW);
     }
-
-    if (!waitForEnd && this->fighter2->getCurrentHP() <= 0) {
-        this->fighter1->victory();
-        Sprite* winner = Database::getWinner();
-        this->winAnim = new MoveAnimation(winner, (width - winner->getWidth()) / 4, 30, (width - winner->getWidth()) / 4, 15, 2000);
-        Database::getFighter(this->fighter2->getName())->defeat();
-        this->waitForEnd = true;
-    } else if (!waitForEnd && this->fighter1->getCurrentHP() <= 0) {
-        this->fighter1->defeat();
-        Database::getFighter(this->fighter2->getName())->victory();
-        Sprite* winner = Database::getWinner();
-        this->winAnim = new MoveAnimation(winner, (width - winner->getWidth()) * 3 / 4, 30, (width - winner->getWidth()) * 3 / 4, 15, 2000);
-        this->waitForEnd = true;
-    }
-    if (this->waitForEnd && this->winAnim != nullptr) {
-        this->endTimer += deltaTime;
-        winAnim->draw(screen, deltaTime, false);
-        if (this->endTimer > 2000) {
-            delete this->winAnim;
-            this->leave = true;
-        }
-    }
 }
 
 void Fight::keyInput(int key) {
-    if (!hitAnim && !waitForEnd) {
+    if (!hitAnim) {
         switch (key) {
             case KEY_ESC:
                 this->leave = true;
@@ -196,6 +180,4 @@ void Fight::hit(int fighterIndex, int abilityIndex) {
     this->hitAnimAbilityIndex = abilityIndex;
     this->hitAnim = true;
     this->hitAnimTimer = 0;
-    this->hitMoveAnim = new MoveAnimation(this->hitSprite, (this->screen->getWidth() - this->hitSprite->getWidth()) / 2, 15,
-                                          fighterIndex == 0 ? 0 : this->screen->getWidth() - this->hitSprite->getWidth(), 25, 400);
 }

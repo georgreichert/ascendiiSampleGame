@@ -90,19 +90,3 @@ Fighter* Fighter::clone() {
     return new Fighter(this->getName(), this->getMaxHP(), this->getBaseDMG(), this->getBaseDEF(),
                         this->getBlockBonus(), this->getAbility(0), this->getAbility(1), this->getSprite()->clone());
 }
-
-int Fighter::getVictories() {
-    return this->victories;
-}
-
-int Fighter::getDefeats() {
-    return this->defeats;
-}
-
-void Fighter::victory() {
-    this->victories++;
-}
-
-void Fighter::defeat() {
-    this->defeats++;
-}

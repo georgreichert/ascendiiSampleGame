@@ -12,7 +12,7 @@ class ChosenFighter: public SubState {
         ChosenFighter(Screen* screen, OneVsOne* parentState, Fighter* fighter, float start = 0.0f);
         ~ChosenFighter();
         void keyInput(int key);
-        void update(int deltaTime);
+        void draw(int deltaTime);
 };
 
 #endif // CHOSENFIGHTER_H

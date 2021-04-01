@@ -14,7 +14,7 @@ class MainMenu: public GameState {
         MainMenu(Screen* screen);
         ~MainMenu();
         void keyInput(int key);
-        void update(int deltaTime);
+        void draw(int deltaTime);
         GameState* getNextState();
 };
 

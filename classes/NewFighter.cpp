@@ -48,7 +48,7 @@ void NewFighter::keyInput(int key) {
     }
 }
 
-void NewFighter::update(int deltaTime) {
+void NewFighter::draw(int deltaTime) {
     int currentRow = this->startLine;
     int screenWidth = this->screen->getWidth();
     int leftMostIndex = screenWidth * this->start;

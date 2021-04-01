@@ -58,19 +58,15 @@ void OneVsOne::keyInput(int key) {
                 this->activeSubState->keyInput(key);
                 if (this->activeSubState->leaveStatus()) {
                     if (this->subStateStackLeft.top() == activeSubState) {
-                        delete subStateStackLeft.top();
                         this->subStateStackLeft.pop();
                         if(this->subStateStackLeft.empty()) {
-                            this->activeSubState = nullptr;
                             this->leave = true;
                         } else {
                             this->activeSubState = this->subStateStackLeft.top();
                         }
                     } else {
-                        delete subStateStackRight.top();
                         this->subStateStackRight.pop();
                         if(this->subStateStackRight.empty()) {
-                            this->activeSubState = nullptr;
                             this->leave = true;
                         } else {
                             this->activeSubState = this->subStateStackRight.top();
@@ -88,23 +84,21 @@ void OneVsOne::keyInput(int key) {
                 this->activeSubState->keyInput(key);
                 break;
         }
-        if (activeSubState != nullptr) {
-            SubState* nextSubState = this->activeSubState->getNextState();
-            if (nextSubState != nullptr) {
-                if (this->subStateStackLeft.top() == activeSubState) {
-                    this->subStateStackLeft.push(nextSubState);
-                    this->activeSubState = this->subStateStackLeft.top();
-                } else {
-                    this->subStateStackRight.push(nextSubState);
-                    this->activeSubState = this->subStateStackRight.top();
-                }
-                this->activeSubState->toggleFocus();
+        SubState* nextSubState = this->activeSubState->getNextState();
+        if (nextSubState != nullptr) {
+            if (this->subStateStackLeft.top() == activeSubState) {
+                this->subStateStackLeft.push(nextSubState);
+                this->activeSubState = this->subStateStackLeft.top();
+            } else {
+                this->subStateStackRight.push(nextSubState);
+                this->activeSubState = this->subStateStackRight.top();
             }
+            this->activeSubState->toggleFocus();
         }
     }
 }
 
-void OneVsOne::update(int deltaTime) {
+void OneVsOne::draw(int deltaTime) {
     int currentRow = 1;
     int width = this->screen->getWidth();
 
@@ -130,8 +124,8 @@ void OneVsOne::update(int deltaTime) {
     this->screen->horizontalLine(0, currentRow, width, COLOR_RED);
 
     // SubStates
-    this->subStateStackLeft.top()->update(deltaTime);
-    this->subStateStackRight.top()->update(deltaTime);
+    this->subStateStackLeft.top()->draw(deltaTime);
+    this->subStateStackRight.top()->draw(deltaTime);
 
     currentRow += 33;
     // Line
@@ -141,13 +135,13 @@ void OneVsOne::update(int deltaTime) {
         this->startFightAnimTimer += deltaTime;
         if (this->startFightAnimTimer < 1000) {
             Sprite* three = Database::getThreeTwoOne(0);
-            three->draw(screen, (width - three->getWidth()) / 2, 10, false);
+            three->draw(screen, (width - three->getWidth()) / 2, 10, false, ' ');
         } else if (this->startFightAnimTimer < 2000) {
             Sprite* two = Database::getThreeTwoOne(1);
-            two->draw(screen, (width - two->getWidth()) / 2, 10, false);
+            two->draw(screen, (width - two->getWidth()) / 2, 10, false, ' ');
         } else if (this->startFightAnimTimer < 3000) {
             Sprite* one = Database::getThreeTwoOne(2);
-            one->draw(screen, (width - one->getWidth()) / 2, 10, false);
+            one->draw(screen, (width - one->getWidth()) / 2, 10, false, ' ');
         } else {
             this->startFightAnim = false;
             this->nextState = new Fight(screen, this->fighter1, this->fighter2);
