@@ -168,7 +168,6 @@ void OneVsOne::startFight(Fighter* fighter, float start) {
         this->fighter2 = fighter;
     }
     if (this->fighter1 != nullptr && this->fighter2 != nullptr) {
-        DebugLog::log("Fight starts now");
         this->startFightAnim = true;
         this->startFightAnimTimer = 0;
     }

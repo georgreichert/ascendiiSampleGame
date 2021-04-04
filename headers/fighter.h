@@ -17,9 +17,12 @@ class Fighter {
         Sprite* sprite;
         int victories = 0;
         int defeats = 0;
+        DecisionTree* decisionTree;
+        bool playerType = PLAYER_TYPE_AI;
 
     public:
-        Fighter(std::string name, float maxHP, float baseDMG, float baseDEF, float blockBonus, Ability* ab1, Ability* ab2, Sprite* sprite = nullptr);
+        Fighter(std::string name, float maxHP, float baseDMG, float baseDEF, float blockBonus,
+                    Ability* ab1, Ability* ab2, Sprite* sprite, DecisionTree* decisionTree);
         ~Fighter();
         std::string getName();
         float getMaxHP();
@@ -39,6 +42,9 @@ class Fighter {
         int getDefeats();
         void victory();
         void defeat();
+        void setPlayerType(bool playerType);
+        bool getPlayerType();
+        char decide();
 };
 
 #endif // FIGHTER_H

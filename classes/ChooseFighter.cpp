@@ -1,7 +1,7 @@
 #include "../headers/fightclub.h"
 
 
-ChooseFighter::ChooseFighter(Screen* screen, OneVsOne* parentState, float start) : SubState (screen, start, 0.5f, 9, 30) {
+ChooseFighter::ChooseFighter(Screen* screen, OneVsOne* parentState, bool playerType, float start) : SubState (screen, start, 0.5f, 9, 30) {
     this->fighters = Database::getFighters();
     this->parentState = parentState;
     for (Fighter* fi : fighters) {
@@ -10,6 +10,7 @@ ChooseFighter::ChooseFighter(Screen* screen, OneVsOne* parentState, float start)
         this->menuElements.push_back(new MenuElement(new Sprite(name, COLOR_WHITE, name[0].length(), 1)));
     }
     this->menuElements.front()->toggleActive();
+    this->playerType = playerType;
 }
 
 ChooseFighter::~ChooseFighter() {
@@ -37,6 +38,7 @@ void ChooseFighter::keyInput(int key) {
                 }
                 break;
             case KEY_SPACE:
+                this->fighters[this->cursorPosition]->setPlayerType(this->playerType);
                 this->nextState = new ChosenFighter(this->screen, this->parentState, this->fighters[this->cursorPosition], this->start);
                 break;
             case KEY_ESC:

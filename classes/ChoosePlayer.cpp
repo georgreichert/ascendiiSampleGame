@@ -75,10 +75,10 @@ void ChoosePlayer::keyInput(int key) {
             case KEY_SPACE:
                 switch (cursorPosition) {
                     case 0:
-                        this->nextState = new NewFighter(this->screen, this->start);
+                        this->nextState = new NewFighter(this->screen, this->parentState, this->start);
                         break;
                     case 1:
-                        this->nextState = new ChooseFighter(this->screen, this->parentState, this->start);
+                        this->nextState = new ChooseFighter(this->screen, this->parentState, this->playerType, this->start);
                         break;
                     case 2:
                         this->playerType = !this->playerType;

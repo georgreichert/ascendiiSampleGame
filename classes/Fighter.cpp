@@ -1,6 +1,7 @@
 #include "../headers/fightclub.h"
 
-Fighter::Fighter(std::string name, float maxHP, float baseDMG, float baseDEF, float blockBonus, Ability* ab1, Ability* ab2, Sprite* sprite) {
+Fighter::Fighter(std::string name, float maxHP, float baseDMG, float baseDEF,
+                 float blockBonus, Ability* ab1, Ability* ab2, Sprite* sprite, DecisionTree* decisionTree) {
     this->name = name;
     this->maxHP = maxHP;
     this->currentHP = maxHP;
@@ -10,6 +11,7 @@ Fighter::Fighter(std::string name, float maxHP, float baseDMG, float baseDEF, fl
     this->abilities[0] = ab1;
     this->abilities[1] = ab2;
     this->sprite = sprite;
+    this->decisionTree = decisionTree;
 }
 
 Fighter::~Fighter() {
@@ -87,8 +89,10 @@ void Fighter::heal() {
 }
 
 Fighter* Fighter::clone() {
-    return new Fighter(this->getName(), this->getMaxHP(), this->getBaseDMG(), this->getBaseDEF(),
-                        this->getBlockBonus(), this->getAbility(0), this->getAbility(1), this->getSprite()->clone());
+    Fighter* r = new Fighter(this->getName(), this->getMaxHP(), this->getBaseDMG(), this->getBaseDEF(),
+                        this->getBlockBonus(), this->getAbility(0), this->getAbility(1), this->getSprite()->clone(), this->decisionTree);
+    r->setPlayerType(this->playerType);
+    return r;
 }
 
 int Fighter::getVictories() {
@@ -105,4 +109,16 @@ void Fighter::victory() {
 
 void Fighter::defeat() {
     this->defeats++;
+}
+
+void Fighter::setPlayerType(bool playerType) {
+    this->playerType = playerType;
+}
+
+bool Fighter::getPlayerType() {
+    return this->playerType;
+}
+
+char Fighter::decide() {
+    return this->decisionTree->decide(this);
 }

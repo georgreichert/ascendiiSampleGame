@@ -2,6 +2,7 @@
 
 std::vector<Ability*> Database::abilities;
 std::vector<Fighter*> Database::fighters;
+std::vector<DecisionTree*> Database::decisionTrees;
 bool Database::initialized = false;
 Sprite* Database::hitSprite = nullptr;
 Sprite* Database::threeTwoOne[3];
@@ -37,6 +38,11 @@ Fighter* Database::getFighter(std::string name) {
     return nullptr;
 }
 
+void Database::addFighter(Fighter* fi) {
+    Database::initialize();
+    Database::fighters.push_back(fi);
+}
+
 Sprite* Database::getHitSprite() {
     Database::initialize();
     return Database::hitSprite;
@@ -55,6 +61,10 @@ Sprite* Database::getWinner() {
 void Database::initialize() {
     if (!Database::initialized) {
         Database::initialized = true;
+
+        Database::decisionTrees.push_back(new DecisionTreeStandard());
+        Database::decisionTrees.push_back(new DecisionTreeAggressive());
+        Database::decisionTrees.push_back(new DecisionTreeDefensive());
 
         Database::abilities.push_back(new Ability("Right Hook"));
         Database::abilities.push_back(new Ability("Left Hook", 0.9f, 1.1f, 0.1f));
@@ -95,7 +105,7 @@ void Database::initialize() {
         };
         Database::fighters.push_back(new Fighter("Butch Coolidge", 100.0f, 15.0f, 1.0f, 1.5f,
                 Database::getAbility("Right Hook"), Database::getAbility("Targeted Strike"),
-                new Sprite(butch, COLOR_WHITE, butch[0].length(), 28)));
+                new Sprite(butch, COLOR_WHITE, butch[0].length(), 28), Database::decisionTrees[0]));
         std::string clegane[28] = {
             ",,,,,************.                    .(   ,    /*******/***",
             ",,,,,*,,*****,                      . .#%&## ,*    ///////**",
@@ -128,7 +138,7 @@ void Database::initialize() {
         };
         Database::fighters.push_back(new Fighter("Gregor Clegane", 120.0f, 22.0f, 0.70f, 1.3f,
                 Database::getAbility("Right Hook"), Database::getAbility("Bodyslam"),
-                new Sprite(clegane, COLOR_WHITE, clegane[0].length(), 28)));
+                new Sprite(clegane, COLOR_WHITE, clegane[0].length(), 28), Database::decisionTrees[1]));
         std::string rocky[28] = {
             "     #&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&#",
             "   (&&@@@&@@@@@@@&%%&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
@@ -161,7 +171,7 @@ void Database::initialize() {
         };
         Database::fighters.push_back(new Fighter("Rocky Balboa", 90.0f, 18.0f, 1.2f, 1.5f,
                 Database::getAbility("Safe Blow"), Database::getAbility("Targeted Strike"),
-                new Sprite(rocky, COLOR_WHITE, rocky[0].length(), 28)));
+                new Sprite(rocky, COLOR_WHITE, rocky[0].length(), 28), Database::decisionTrees[0]));
         std::string bastard[28] = {
             "            *(/@@@@@@@@@@@@@@@@@@@@@@#@@@@@&(    ./(####%%%%",
             "         .%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&@@@@   ./(####%#*.",
@@ -194,7 +204,7 @@ void Database::initialize() {
         };
         Database::fighters.push_back(new Fighter("Fat Bastard", 120.0f, 11.0f, 1.4f, 2.0f,
                 Database::getAbility("Left Hook"), Database::getAbility("Bodyslam"),
-                new Sprite(bastard, COLOR_WHITE, bastard[0].length(), 28)));
+                new Sprite(bastard, COLOR_WHITE, bastard[0].length(), 28), Database::decisionTrees[2]));
         std::string chuck[28] = {
             "**********/(%#(%#%%/##&@&@@@@&#@@@@@@@&%%%%%#&&&////////////",
             "*******/*/#(&&%%&%@@@@@&&#&@&@@&&%&%&%%@&@&&&#%%&&(/////////",
@@ -227,7 +237,7 @@ void Database::initialize() {
         };
         Database::fighters.push_back(new Fighter("Chuck Norris", 100.0f, 15.0f, 1.1f, 1.4f,
                 Database::getAbility("Targeted Strike"), Database::getAbility("Roundhouse Kick"),
-                new Sprite(chuck, COLOR_WHITE, chuck[0].length(), 28)));
+                new Sprite(chuck, COLOR_WHITE, chuck[0].length(), 28), Database::decisionTrees[1]));
 
         std::string hit[10] = {
             "        A    _ ",
@@ -316,5 +326,12 @@ void Database::destroy() {
             delete Database::threeTwoOne[i];
         }
         delete Database::winner;
+        for (DecisionTree* de : Database::decisionTrees) {
+            delete de;
+        }
     }
+}
+
+DecisionTree* Database::getDecisionTree(int type) {
+    return Database::decisionTrees[type];
 }

@@ -15,10 +15,10 @@ int main() {
         deltaTime = Time::getDeltaTime();
         Input::update(deltaTime);
 
-        if (Input::getKeyDown(VK_ESCAPE)) {
-            key = KEY_ESC;
-        } else if (Input::getKeyDown(VK_SPACE) || Input::getKeyDown(VK_RETURN)) {
+        if (Input::getKeyDown(VK_SPACE) || Input::getKeyDown(VK_RETURN)) {
             key = KEY_SPACE;
+        } else if (Input::getKeyDown(VK_ESCAPE)) {
+            key = KEY_ESC;
         } else if (Input::getKeyDown(VK_UP)) {
             key = KEY_UP;
         } else if (Input::getKeyDown(VK_DOWN)) {
@@ -27,18 +27,18 @@ int main() {
             key = KEY_LEFT;
         } else if (Input::getKeyDown(VK_RIGHT)) {
             key = KEY_RIGHT;
-        } else if (Input::getKeyDown('A')) {
-            key = 'A';
-        } else if (Input::getKeyDown('S')) {
-            key = 'S';
-        } else if (Input::getKeyDown('D')) {
-            key = 'D';
-        } else if (Input::getKeyDown('J')) {
-            key = 'J';
-        } else if (Input::getKeyDown('K')) {
-            key = 'K';
-        } else if (Input::getKeyDown('L')) {
-            key = 'L';
+        } else if (Input::getKeyDown(KEY_BLOCK_PLAYER_1)) {
+            key = KEY_BLOCK_PLAYER_1;
+        } else if (Input::getKeyDown(KEY_ABILITY_2_PLAYER_1)) {
+            key = KEY_ABILITY_2_PLAYER_1;
+        } else if (Input::getKeyDown(KEY_ABILITY_1_PLAYER_1)) {
+            key = KEY_ABILITY_1_PLAYER_1;
+        } else if (Input::getKeyDown(KEY_ABILITY_1_PLAYER_2)) {
+            key = KEY_ABILITY_1_PLAYER_2;
+        } else if (Input::getKeyDown(KEY_ABILITY_2_PLAYER_2)) {
+            key = KEY_ABILITY_2_PLAYER_2;
+        } else if (Input::getKeyDown(KEY_BLOCK_PLAYER_2)) {
+            key = KEY_BLOCK_PLAYER_2;
         } else {
             key = -1;
         }

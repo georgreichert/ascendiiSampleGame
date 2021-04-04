@@ -6,10 +6,11 @@
 class NewFighter: public SubState {
     private:
         std::vector<Ability*> abilities;
-        int cursorPosition = 0;
+        GameState* parentState;
+        NewFighterMenu* menu;
 
     public:
-        NewFighter(Screen* screen, float start = 0.0f);
+        NewFighter(Screen* screen, GameState* parentState, float start = 0.0f);
         ~NewFighter();
         void keyInput(int key);
         void update(int deltaTime);

@@ -17,7 +17,7 @@ class ChoosePlayer: public SubState {
         OneVsOne* parentState;
 
     public:
-        ChoosePlayer(Screen* screen, OneVsOne* parentState, bool playerType = false, float start = 0.0f);
+        ChoosePlayer(Screen* screen, OneVsOne* parentState, bool playerType = PLAYER_TYPE_AI, float start = 0.0f);
         ~ChoosePlayer();
         void keyInput(int key);
         void update(int deltaTime);

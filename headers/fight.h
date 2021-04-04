@@ -17,6 +17,8 @@ class Fight : public GameState {
         bool waitForEnd = false;
         int endTimer = 0;
         Sprite* hitSprite;
+        bool aiPause = false;
+        int aiPauseTimer = 0;
 
     public:
         Fight(Screen* screen, Fighter* fighter1, Fighter* fighter2);

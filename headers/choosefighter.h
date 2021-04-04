@@ -9,9 +9,10 @@ class ChooseFighter: public SubState {
         std::vector<Fighter*> fighters;
         int cursorPosition = 0;
         OneVsOne* parentState;
+        bool playerType;
 
     public:
-        ChooseFighter(Screen* screen, OneVsOne* parentState, float start = 0.0f);
+        ChooseFighter(Screen* screen, OneVsOne* parentState, bool playerType, float start = 0.0f);
         ~ChooseFighter();
         void keyInput(int key);
         void update(int deltaTime);

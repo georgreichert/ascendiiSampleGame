@@ -26,6 +26,13 @@ void Fight::update(int deltaTime) {
     if (this->hitAnim) {
         hitAnimTimer += deltaTime;
     }
+    if (this->aiPause) {
+        this->aiPauseTimer += deltaTime;
+        if (this->aiPauseTimer >= 1500) {
+            this->aiPause = false;
+            this->aiPauseTimer = 0;
+        }
+    }
     int currentRow = 2;
     int width = this->screen->getWidth();
 
@@ -143,7 +150,45 @@ void Fight::update(int deltaTime) {
 }
 
 void Fight::keyInput(int key) {
-    if (!hitAnim && !waitForEnd) {
+    if (!this->hitAnim && !this->waitForEnd && !this->aiPause) {
+        if(this->turnIndex == 0 && this->fighter1->getPlayerType() == PLAYER_TYPE_AI) {
+            switch (this->fighter1->decide()) {
+                case KEY_ABILITY_1:
+                    key = KEY_ABILITY_1_PLAYER_1;
+                    break;
+                case KEY_ABILITY_2:
+                    key = KEY_ABILITY_2_PLAYER_1;
+                    break;
+                case KEY_BLOCK:
+                    key = KEY_BLOCK_PLAYER_1;
+                    break;
+                default:
+                    break;
+            }
+            if (this->fighter2->getPlayerType() == PLAYER_TYPE_AI) {
+                this->aiPause = true;
+                this->aiPauseTimer = 0;
+            }
+        } else if(this->turnIndex == 1 && this->fighter2->getPlayerType() == PLAYER_TYPE_AI) {
+            switch (this->fighter2->decide()) {
+                case KEY_ABILITY_1:
+                    key = KEY_ABILITY_1_PLAYER_2;
+                    break;
+                case KEY_ABILITY_2:
+                    key = KEY_ABILITY_2_PLAYER_2;
+                    break;
+                case KEY_BLOCK:
+                    key = KEY_BLOCK_PLAYER_2;
+                    break;
+                default:
+                    break;
+            }
+            if (this->fighter1->getPlayerType() == PLAYER_TYPE_AI) {
+                this->aiPause = true;
+                this->aiPauseTimer = 0;
+            }
+        }
+
         switch (key) {
             case KEY_ESC:
                 this->leave = true;
@@ -152,34 +197,34 @@ void Fight::keyInput(int key) {
                 break;
             case KEY_LEFT:
                 break;
-            case 'A':
+            case KEY_BLOCK_PLAYER_1:
                 if (this->turnIndex == 0) {
                     fighter1->block();
                     this->turnIndex = 1;
                 }
                 break;
-            case 'S':
+            case KEY_ABILITY_2_PLAYER_1:
                 if (this->turnIndex == 0) {
                     hit(1, 1);
                 }
                 break;
-            case 'D':
+            case KEY_ABILITY_1_PLAYER_1:
                 if (this->turnIndex == 0) {
                     hit(1, 0);
                 }
                 break;
-            case 'L':
+            case KEY_BLOCK_PLAYER_2:
                 if (this->turnIndex == 1) {
                     fighter2->block();
                     this->turnIndex = 0;
                 }
                 break;
-            case 'K':
+            case KEY_ABILITY_2_PLAYER_2:
                 if (this->turnIndex == 1) {
                     hit(0, 1);
                 }
                 break;
-            case 'J':
+            case KEY_ABILITY_1_PLAYER_2:
                 if (this->turnIndex == 1) {
                     hit(0, 0);
                 }
