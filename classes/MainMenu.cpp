@@ -42,23 +42,34 @@ MainMenu::MainMenu(Screen* screen) : GameState(screen) {
         "#### #  # #   #  "
     };
     this->menuElements[2] = new MenuElement(new Sprite(exit, COLOR_WHITE, exit[0].length(), 4));
+
+    int width = screen->getWidth();
+    this->beginAnimationFight = new MoveAnimation(this->fight, width - this->fight->getWidth() - 1, 7, (width - this->fight->getWidth()) / 2 - 3, 7, 1500);
+    this->beginAnimationClub = new MoveAnimation(this->club, 0, 12, (width - this->club->getWidth()) / 2 + 3, 12, 1500);
 }
 
 void MainMenu::update(int deltaTime) {
     int currentRow = 7;
     int width = this->screen->getWidth();
 
-    // FIGHT
     int originX = (width - this->fight->getWidth()) / 2 - 3;
-    this->fight->draw(this->screen, originX, currentRow);
-
-    // CLUB
-    currentRow += 5;
-    originX = (width - this->club->getWidth()) / 2 + 3;
-    this->club->draw(this->screen, originX, currentRow);
+    // FIGHT CLUB
+    if (!beginAnimation) {
+        this->fight->draw(this->screen, originX, currentRow);
+        currentRow += 5;
+        originX = (width - this->club->getWidth()) / 2 + 3;
+        this->club->draw(this->screen, originX, currentRow);
+    } else {
+        this->beginAnimationTimer += deltaTime;
+        this->beginAnimationClub->draw(screen, deltaTime, false);
+        this->beginAnimationFight->draw(screen, deltaTime, false);
+        if (this->beginAnimationTimer >= 1500) {
+            this->beginAnimation = false;
+        }
+    }
 
     // 1 vs 1
-    currentRow += 9;
+    currentRow = 21;
     originX = (width - this->menuElements[0]->getWidth()) / 2;
     this->menuElements[0]->draw(this->screen, originX, currentRow);
 
@@ -79,6 +90,8 @@ MainMenu::~MainMenu() {
     for (int i = 0; i < 3; i++) {
         delete this->menuElements[i];
     }
+    delete this->beginAnimationClub;
+    delete this->beginAnimationFight;
 }
 
 void MainMenu::keyInput(int key) {
@@ -103,6 +116,7 @@ void MainMenu::keyInput(int key) {
                     this->nextState = new OneVsOne(this->screen);
                     break;
                 case 1:
+                    this->nextState = new TwoVsTwo(this->screen);
                     break;
                 case 2:
                     this->leave = true;

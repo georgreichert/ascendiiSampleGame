@@ -26,6 +26,7 @@ class DecisionTree;
 #include "decisiontreestandard.h"
 #include "decisiontreeaggressive.h"
 #include "decisiontreedefensive.h"
+#include "team.h"
 #include "database.h"
 #include "mainmenu.h"
 class OneVsOne;
@@ -35,6 +36,14 @@ class OneVsOne;
 #include "choosefighter.h"
 #include "chosenfighter.h"
 #include "onevsone.h"
+class TwoVsTwo;
+#include "newteammenu.h"
+#include "newteam.h"
+#include "chosenteam.h"
+#include "chooseteamsubstate.h"
+#include "chooseteam.h"
+#include "twovstwo.h"
 #include "fight.h"
+#include "teamfight.h"
 
 #endif // FIGHTCLUB_H

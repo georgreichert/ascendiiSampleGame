@@ -8,6 +8,7 @@ class Database {
         static std::vector<Ability*> abilities;
         static std::vector<Fighter*> fighters;
         static std::vector<DecisionTree*> decisionTrees;
+        static std::vector<Team*> teams;
         static Sprite* hitSprite;
         static Sprite* threeTwoOne[3];
         static Sprite* winner;
@@ -25,6 +26,9 @@ class Database {
         static void destroy();
         static void addFighter(Fighter* fi);
         static DecisionTree* getDecisionTree(int type);
+        static void addTeam(Team* team);
+        static std::vector<Team*> getTeams();
+        static Team* getTeam(std::string name);
 };
 
 #endif // DATABASE_H

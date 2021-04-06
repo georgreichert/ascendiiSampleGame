@@ -9,6 +9,10 @@ class MainMenu: public GameState {
         Sprite* fight;
         Sprite* club;
         MenuElement* menuElements[3];
+        bool beginAnimation = true;
+        int beginAnimationTimer = 0;
+        MoveAnimation* beginAnimationFight;
+        MoveAnimation* beginAnimationClub;
 
     public:
         MainMenu(Screen* screen);

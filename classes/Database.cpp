@@ -3,6 +3,7 @@
 std::vector<Ability*> Database::abilities;
 std::vector<Fighter*> Database::fighters;
 std::vector<DecisionTree*> Database::decisionTrees;
+std::vector<Team*> Database::teams;
 bool Database::initialized = false;
 Sprite* Database::hitSprite = nullptr;
 Sprite* Database::threeTwoOne[3];
@@ -239,6 +240,9 @@ void Database::initialize() {
                 Database::getAbility("Targeted Strike"), Database::getAbility("Roundhouse Kick"),
                 new Sprite(chuck, COLOR_WHITE, chuck[0].length(), 28), Database::decisionTrees[1]));
 
+        Database::addTeam(new Team(Database::getFighter("Butch Coolidge"), Database::getFighter("Rocky Balboa"), "Boxers"));
+        Database::addTeam(new Team(Database::getFighter("Chuck Norris"), Database::getFighter("Fat Bastard"), "Martial Artists"));
+
         std::string hit[10] = {
             "        A    _ ",
             "       /*\  /*|",
@@ -329,9 +333,34 @@ void Database::destroy() {
         for (DecisionTree* de : Database::decisionTrees) {
             delete de;
         }
+        for (Team* te : Database::teams) {
+                delete te;
+        }
     }
 }
 
 DecisionTree* Database::getDecisionTree(int type) {
+    Database::initialize();
     return Database::decisionTrees[type];
+}
+
+std::vector<Team*> Database::getTeams() {
+    Database::initialize();
+    return Database::teams;
+}
+
+void Database::addTeam(Team* team) {
+    Database::initialize();
+    Database::teams.push_back(team);
+}
+
+Team* Database::getTeam(std::string name) {
+    Database::initialize();
+    Team* r = nullptr;
+    for (Team* te : Database::teams) {
+        if (te->getName().compare(name) == 0) {
+            r = te;
+        }
+    }
+    return r;
 }

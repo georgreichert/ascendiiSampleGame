@@ -134,7 +134,6 @@ void NewFighterMenu::select() {
                                                         new Sprite(fighterFace, COLOR_WHITE, fighterFace[0].length(), 28),
                                                         decisionTree
                                                         ));
-            DebugLog::log(std::to_string(Database::getFighters().size()));
         }
     }
 }
